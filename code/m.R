@@ -24,6 +24,20 @@ df %>%
   sumlogccp(df = ., param_vec = param_vec, val_tol = val_tol) %>% 
   print(., n=nrow(.))
 
-optim(par = c(5, 0.01), fn = sumlogccp, control = list(maxit = 1000), method = "L-BFGS-B", lower = c(0,0))
+num_start_pt <- 20
+num_start_pt %>% 
+  seq() %>%
+  llply
+    (
+      function(L){
+        optim(
+            par = c(5, 0.01),
+            fn = sumlogccp,
+            control = list(maxit = 1000),
+            method = "L-BFGS-B",
+            lower = c(0,0)
+            )
+      }
+    )
 # We just realized that the "function" in the optim function should
 # probably have only one input at the last minute before submission.
